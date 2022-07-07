@@ -45,6 +45,10 @@ import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import './App.scss';
 import { Navigation } from './navigation/navigation';
+import Login from './common/Login';
+import Register from './common/Register';
+import { AppsConst } from './shared/AppsConst';
+import Home from './common/Home';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -181,56 +185,87 @@ const App = () => {
         'layout-theme-light': layoutColorMode === 'light'
     });
 
+
     const withLayout = true;
+    const currentUrl = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    const isCommonRoute = AppsConst.commonUrl.find(e => e.url == `/${currentUrl}`)? true : false;
+    console.log(currentUrl);
+    console.log(isCommonRoute);
 
     return (
-        <div className={wrapperClass} onClick={onWrapperClick}>
-            <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
-
-        <><AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
-            mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} /><div className="layout-sidebar" onClick={onSidebarClick}>
-                <AppMenu model={Navigation} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
-            </div></>
-            
-
-            <div className="layout-main-container">
+        <>
+            {
+                isCommonRoute && <>
+                <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode} isCommon={isCommonRoute}
+                    mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
+                <div className="layout-main-container">
                 <div className="layout-main">
-                    <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
-                    <Route path="/formlayout" component={FormLayoutDemo} />
-                    <Route path="/input" component={InputDemo} />
-                    <Route path="/floatlabel" component={FloatLabelDemo} />
-                    <Route path="/invalidstate" component={InvalidStateDemo} />
-                    <Route path="/button" component={ButtonDemo} />
-                    <Route path="/table" component={TableDemo} />
-                    <Route path="/list" component={ListDemo} />
-                    <Route path="/tree" component={TreeDemo} />
-                    <Route path="/panel" component={PanelDemo} />
-                    <Route path="/overlay" component={OverlayDemo} />
-                    <Route path="/media" component={MediaDemo} />
-                    <Route path="/menu" component={MenuDemo} />
-                    <Route path="/messages" component={MessagesDemo} />
-                    <Route path="/blocks" component={BlocksDemo} />
-                    <Route path="/icons" component={IconsDemo} />
-                    <Route path="/file" component={FileDemo} />
-                    <Route path="/chart" render={() => <ChartDemo colorMode={layoutColorMode} location={location} />} />
-                    <Route path="/misc" component={MiscDemo} />
-                    <Route path="/timeline" component={TimelineDemo} />
-                    <Route path="/crud" component={Crud} />
-                    <Route path="/empty" component={EmptyPage} />
-                    <Route path="/documentation" component={Documentation} />
+                    {/* <EmptyPage></EmptyPage> */}
+
+                    <Route path="/login" component={Login} />
+                    <Route path="/register" component={Register} />
+                    <Route path="/home" component={Home} />
+                </div>
+                </div>
+                </>
+                
+            }
+
+
+
+            {!isCommonRoute && <div className={wrapperClass} onClick={onWrapperClick}>
+                <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
+
+                <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+                    mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
+                <div className="layout-sidebar" onClick={onSidebarClick}>
+                    <AppMenu model={Navigation} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
                 </div>
 
-                <AppFooter layoutColorMode={layoutColorMode} />
+
+                <div className="layout-main-container">
+                    <div className="layout-main">
+                        <Route path="/dashboard" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
+                        <Route path="/formlayout" component={FormLayoutDemo} />
+                        <Route path="/input" component={InputDemo} />
+                        <Route path="/floatlabel" component={FloatLabelDemo} />
+                        <Route path="/invalidstate" component={InvalidStateDemo} />
+                        <Route path="/button" component={ButtonDemo} />
+                        <Route path="/table" component={TableDemo} />
+                        <Route path="/list" component={ListDemo} />
+                        <Route path="/tree" component={TreeDemo} />
+                        <Route path="/panel" component={PanelDemo} />
+                        <Route path="/overlay" component={OverlayDemo} />
+                        <Route path="/media" component={MediaDemo} />
+                        <Route path="/menu" component={MenuDemo} />
+                        <Route path="/messages" component={MessagesDemo} />
+                        <Route path="/blocks" component={BlocksDemo} />
+                        <Route path="/icons" component={IconsDemo} />
+                        <Route path="/file" component={FileDemo} />
+                        <Route path="/chart" render={() => <ChartDemo colorMode={layoutColorMode} location={location} />} />
+                        <Route path="/misc" component={MiscDemo} />
+                        <Route path="/timeline" component={TimelineDemo} />
+                        <Route path="/crud" component={Crud} />
+                        <Route path="/empty" component={EmptyPage} />
+                        <Route path="/documentation" component={Documentation} />
+                    </div>
+
+                    <AppFooter layoutColorMode={layoutColorMode} />
+                </div>
+
+                <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                    layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+
+                <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
+                    <div className="layout-mask p-component-overlay"></div>
+                </CSSTransition>
+
             </div>
+            }
+        </>
 
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
-            <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
-                <div className="layout-mask p-component-overlay"></div>
-            </CSSTransition>
 
-        </div>
     );
 
 }

@@ -14,7 +14,7 @@ const BlockViewer = (props) => {
     return (
         <div className="block-viewer">
             <div className="block-section">
-                <div className="block-header">
+                {/* <div className="block-header">
                     <span className="block-title">
                         <span>{props.header}</span>
                         {props.new && <span className="badge-new">New</span>}
@@ -28,18 +28,18 @@ const BlockViewer = (props) => {
                             <i className="pi pi-copy"></i>
                         </button>
                     </div>
-                </div>
+                </div> */}
                 <div className="block-content">
                     {blockView === 'PREVIEW' &&
                         <div className={props.containerClassName} style={props.previewStyle}>
                             {props.children}
                         </div>}
 
-                    {blockView === 'CODE' &&
+                    {/* {blockView === 'CODE' &&
                         <CodeHighlight>
                             {props.code}
                         </CodeHighlight>
-                    }
+                    } */}
                 </div>
             </div>
         </div>

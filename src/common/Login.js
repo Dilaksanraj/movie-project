@@ -4,12 +4,29 @@ import { Chip } from 'primereact/chip';
 import { InputText } from 'primereact/inputtext';
 import { Checkbox } from 'primereact/checkbox';
 import BlockViewer from '../BlockViewer';
-import { NavLink } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import {useNavigate,Link,useHistory } from 'react-router-dom';
 
 const Login = () => {
 
     const [checked, setChecked] = useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const history = useHistory()
+
+    const handleSubmit = event => {
+        
+        event.preventDefault();
+    
+        // 👇️ access input values here
+        console.log('username 👉️', username);
+        console.log('password 👉️', password);
+
+        // 👇️ clear all input values in the form
+        setUsername('');
+        setPassword('');
+        history.push('/dashboard')
+      };
 
     return (
 
@@ -28,10 +45,14 @@ const Login = () => {
 
                 <div>
                     <label htmlFor="email1" className="block text-900 font-medium mb-2">Username</label>
-                    <InputText id="email1" type="text" className="w-full mb-3" />
+                    <InputText id="email1" type="text" className="w-full mb-3" 
+                    onChange={event => setUsername(event.target.value)}
+                    value={username}/>
 
                     <label htmlFor="password1" className="block text-900 font-medium mb-2">Password</label>
-                    <InputText id="password1" type="password" className="w-full mb-3" />
+                    <InputText id="password1" type="password" className="w-full mb-3" 
+                    onChange={event => setPassword(event.target.value)}
+                    value={password}/>
 
                     <div className="flex align-items-center justify-content-between mb-6">
                         <div className="flex align-items-center">
@@ -41,7 +62,7 @@ const Login = () => {
                         <button className="p-link font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot password?</button>
                     </div>
 
-                    <Button label="Sign In" icon="pi pi-user" className="w-full" />
+                    <Button label="Sign In" icon="pi pi-user" className="w-full" onClick={handleSubmit}/>
                 </div>
             </div>
         </BlockViewer>

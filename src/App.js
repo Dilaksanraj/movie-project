@@ -44,7 +44,7 @@ import './assets/demo/flags/flags.css';
 import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import './App.scss';
-import { Navigation } from './navigation/navigation';
+import { Navigation, NavigationDev } from './navigation/navigation';
 import Login from './common/Login';
 import Register from './common/Register';
 import { AppsConst } from './shared/AppsConst';
@@ -186,7 +186,7 @@ const App = () => {
     });
 
 
-    const withLayout = true;
+    const envirment = 'DEV';
     const currentUrl = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
     const isCommonRoute = AppsConst.commonUrl.find(e => e.url == `/${currentUrl}`)? true : false;
     console.log(currentUrl);
@@ -219,7 +219,7 @@ const App = () => {
                 <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
                     mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
                 <div className="layout-sidebar" onClick={onSidebarClick}>
-                    <AppMenu model={Navigation} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
+                    <AppMenu model={envirment === 'DEV'?NavigationDev : Navigation} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
                 </div>
 
 
